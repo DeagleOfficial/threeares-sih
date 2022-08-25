@@ -102,9 +102,25 @@ const Material = () => {
                 direction={"column"}
                 spacing={5}
                 justifyContent="center"
+
+                sx={{
+                  
+                }}
               >
-                <Grid item xs={12}>
-                  <FormControl fullWidth>
+                <Grid item xs={12}
+                sx={{
+                  // background: "red",
+                  display: "flex",
+                  padding: "0px",
+                  alignItems: "center !important"
+                }}
+                >
+                  <FormControl fullWidth
+                  sx={{
+                    display: "flex",
+                    alignItems: "center !important",
+                  }}
+                  >
                     <InputLabel id="demo-simple-select-label">
                       Materials
                     </InputLabel>
@@ -115,9 +131,11 @@ const Material = () => {
                       label="Material"
                       onChange={handleChange}
 
+
                       sx={{
-                        maxWidth: "60vw",
-                        overflow: "hidden"
+                        width: "100%",
+                        // overflow: "hidden",
+                        // marginLeft: "0px"
                       }}
                     >
                       {materialDetails.map((item) => (
@@ -152,7 +170,7 @@ const Material = () => {
                   />
                 </Grid>
 
-                <div
+                <div id="calculateBtn"
                   style={{
                     display: "flex",
                     flexDirection: "column",
@@ -225,7 +243,7 @@ const Material = () => {
                     className="textfield"
                     style={{
                       margin: "20px",
-                      width: "300px",
+                      // width: "300px",
                     }}
 
                     id="outlined-basic"
