@@ -1,16 +1,37 @@
-import { AppBar, Checkbox, Grid, InputLabel, MenuItem, Paper, Select, Toolbar, Typography } from "@mui/material";
-import { TextField, Button, FormControlLabel, RadioGroup, FormLabel, FormControl, Radio, CssBaseline } from "@mui/material";
+import {
+  AppBar,
+  Checkbox,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import {
+  TextField,
+  Button,
+  FormControlLabel,
+  RadioGroup,
+  FormLabel,
+  FormControl,
+  Radio,
+  CssBaseline,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import MUIDataTable from "mui-datatables";
+
 import PieChart from "../components/PieChart";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { useState } from "react";
-// import "./equipment.css";
+import React, { useEffect, useState } from "react";
+
 import "./Material.css";
 import axios from "axios";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import SplitSection from "../components/SplitSection";
+
 import materialDetails from "../data/material_estimator";
 
 const Material = () => {
@@ -20,6 +41,36 @@ const Material = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const [emission, setEmission] = useState(0);
+  // const planPieChart=[];
+  const [planPieChart, setPlanPieChart] = useState([]);
+
+  useEffect(() => {
+    setPlanPieChart([]);
+    compareListMaterial?.map((data, id) => {
+      var tot = 0;
+      data.map(val => {
+        tot += val.value;
+      })
+
+      console.log("DIe", data);
+
+      setPlanPieChart((prev) => [
+        ...prev,
+        { argument: `Plan ${id}`, value: tot },
+      ]);
+
+      // planPieChart.push(
+      //   { argument: data.argument, value: data.value },
+      // )
+
+    })
+  }, []);
+  var bestPackage = null;
+  var minCostEmission = 1000000000000;
+  var compareListMaterial = [[]];
+
+  compareListMaterial = JSON.parse(localStorage.getItem('compareListMaterial'));
+
 
   var emissions_rate = 0;
   const columns = [
@@ -57,6 +108,7 @@ const Material = () => {
       ...previous,
       [
         equip["Div ID"],
+
         equip["Material Description"],
         weight,
         weight * equip["Published Factor"],
@@ -64,6 +116,44 @@ const Material = () => {
     ]);
   };
 
+  const addToCompareList = () => {
+
+    console.log("StringValue", data);
+
+    var currentVal = [];
+
+    {
+      data.map((d) => {
+
+        currentVal.push({
+          argument: d[1], value: d[3]
+        }
+        )
+
+      });
+    }
+
+    if (!compareListMaterial) compareListMaterial = [[]]
+    console.log("PREvious Value", compareListMaterial);
+    compareListMaterial.push(currentVal);
+
+    console.log("CurrentValue", currentVal);
+
+    localStorage.setItem('compareListMaterial', JSON.stringify(compareListMaterial));
+
+    window.location.reload();
+    // setTimeout(()=>{
+    // compareList=JSON.parse(localStorage.getItem('compareList'));
+
+    // },1000);
+
+  }
+
+
+  const clearCompareList = () => {
+    localStorage.removeItem("compareListMaterial");
+    window.location.reload();
+  }
   return (
     <>
       <div className="appbar">
@@ -102,25 +192,9 @@ const Material = () => {
                 direction={"column"}
                 spacing={5}
                 justifyContent="center"
-
-                sx={{
-                  
-                }}
               >
-                <Grid item xs={12}
-                sx={{
-                  // background: "red",
-                  display: "flex",
-                  padding: "0px",
-                  alignItems: "center !important"
-                }}
-                >
-                  <FormControl fullWidth
-                  sx={{
-                    display: "flex",
-                    alignItems: "center !important",
-                  }}
-                  >
+                <Grid item xs={12}>
+                  <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">
                       Materials
                     </InputLabel>
@@ -131,11 +205,9 @@ const Material = () => {
                       label="Material"
                       onChange={handleChange}
 
-
                       sx={{
-                        width: "100%",
-                        // overflow: "hidden",
-                        // marginLeft: "0px"
+                        // maxWidth: "60vw",
+                        overflow: "hidden"
                       }}
                     >
                       {materialDetails.map((item) => (
@@ -144,8 +216,8 @@ const Material = () => {
                         </MenuItem>
                       ))}
                       {/* <MenuItem value={10}>Ten</MenuItem>
-                                                <MenuItem value={20}>Twenty</MenuItem>
-                                                <MenuItem value={30}>Thirty</MenuItem> */}
+                                            <MenuItem value={20}>Twenty</MenuItem>
+                                            <MenuItem value={30}>Thirty</MenuItem> */}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -170,7 +242,7 @@ const Material = () => {
                   />
                 </Grid>
 
-                <div id="calculateBtn"
+                <div
                   style={{
                     display: "flex",
                     flexDirection: "column",
@@ -199,7 +271,7 @@ const Material = () => {
                     }}
                     onClick={addNew}
                   >
-                    ADD New Emission
+                    Add Aggregates
                   </Button>
 
                   <Button
@@ -219,8 +291,38 @@ const Material = () => {
                     }}
                     onClick={calculate}
                   >
-                    Calculate
+                    Calculate Emission
                   </Button>
+                  <Button style={{
+                    fontFamily: "montserrat",
+                    width: "250px",
+                    marginLeft: "0px",
+                    marginTop: "20px",
+                    marginBottom: "20px",
+                    background: "white",
+                    color: "#008000",
+                    boxShadow: "none",
+                    border: "1px solid #008000",
+                    borderRadius: "0px",
+                    transition: "0.4s ease",
+                  }}
+                    onClick={addToCompareList}
+                  >Compare Plans</Button>
+                  <Button style={{
+                    fontFamily: "montserrat",
+                    width: "250px",
+                    marginLeft: "0px",
+                    marginTop: "20px",
+                    marginBottom: "20px",
+                    background: "white",
+                    color: "#008000",
+                    boxShadow: "none",
+                    border: "1px solid #008000",
+                    borderRadius: "0px",
+                    transition: "0.4s ease",
+                  }}
+                    onClick={clearCompareList}
+                  > Clear Comparison</Button>
                 </div>
               </Grid>
 
@@ -242,12 +344,12 @@ const Material = () => {
                   <TextField
                     className="textfield"
                     style={{
-                      margin: "20px",
-                      // width: "300px",
+                      // margin: "20px",
+                      width: "100%",
                     }}
 
                     id="outlined-basic"
-                    label="Emissions"
+                    label="Emissions (MT of CO2)"
                     variant="outlined"
                     value={emission}
                   />
@@ -300,6 +402,8 @@ const Material = () => {
         <>
           <div style={{
             margin: "20px",
+            border: "1px solid #008000",
+            padding: "10px !important"
           }}>
             <div style={{
 
@@ -320,8 +424,69 @@ const Material = () => {
         </>
 
       )}
+      {
+        compareListMaterial?.length > 0 && (<div style={{
+          margin: "20px"
+        }}>
+          <h3>Compare List</h3>
+          <div id="compareList"
+          //  style={{display: 'flex',flexDirection:'row',justifyContent:"space-between"}}
+          >
+            {
+              compareListMaterial?.map((data, id) => {
+                var tot = 0;
+                data.map(val => {
+                  tot += val.value;
+                })
+
+                // setPlanPieChart((prev) => [
+                //   ...prev,
+                //   { argument: data.argument, value: data.value },
+                // ]);
+
+                // planPieChart.push(
+                //   { argument: data.argument, value: data.value },
+                // )
+
+                if (data.length > 0 && tot < minCostEmission) {
+                  minCostEmission = tot;
+                  bestPackage = (id);
+                }
+                return data.length > 0 && <div style={{
+                  // background: "blue",
+                  // padding: "10px",
+                  border: "1px solid #008000",
+                }}>
+                  <PieChart
+                    data={data}
+                    label={`Plan ${id}`}
+                  />
+                  {
+
+                    <p style={{
+                      margin: "10px"
+                    }}>Total emissions for plan {id}: {tot}</p>
+                  }
+                </div>
+              })
+
+            }
+          </div>
+          {bestPackage && (<PieChart
+            data={planPieChart}
+            label={`Plan Optimization Metrics`}
+          />)}
+          {bestPackage && (<p style={{
+            width: "100%",
+            textAlign: "center",
+            paddingBottom: "10px"
+          }}><b>Best Plan to use is :  Plan {bestPackage}</b></p>)}
+
+        </div>
+        )
+      }
     </>
   );
 };
 
-export default Material;    
+export default Material;
