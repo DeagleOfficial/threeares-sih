@@ -137,7 +137,10 @@ const ResponsiveAppBar = () => {
               // letterSpacing: '.3rem',
               color: '#008000',
               textDecoration: 'none',
-            }}
+
+            }
+            }
+            onClick={() => navigate('/')}
           >
             THREEARES
           </Typography>

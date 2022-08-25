@@ -271,7 +271,7 @@ const clearCompareList = ()=>{
                     }}
                     onClick={addNew}
                   >
-                    ADD New Emission
+                    Add Aggregates
                   </Button>
 
                   <Button
@@ -291,7 +291,7 @@ const clearCompareList = ()=>{
                     }}
                     onClick={calculate}
                   >
-                    Calculate
+                    Calculate Emission
                   </Button>
                   <Button  style={{
                                             fontFamily: "montserrat",
@@ -349,7 +349,7 @@ const clearCompareList = ()=>{
                     }}
 
                     id="outlined-basic"
-                    label="Emissions"
+                    label="Emissions (MT of CO2)"
                     variant="outlined"
                     value={emission}
                   />
@@ -402,6 +402,8 @@ const clearCompareList = ()=>{
         <>
           <div style={{
             margin: "20px",
+            border: "1px solid #008000",
+            padding: "10px !important"
           }}>
             <div style={{
 
