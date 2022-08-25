@@ -27,7 +27,7 @@ import axios from 'axios'
 import PieChart from "../components/PieChart";
 import LocModal from './LocModal'
 import React, { useEffect, useState } from "react";
-import "./equipment.css";
+// import "./equipment.css";
 import "./Material.css";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import SplitSection from "../components/SplitSection";

@@ -6,7 +6,7 @@ import PieChart from "../components/PieChart";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useState } from "react";
-import "./equipment.css";
+// import "./equipment.css";
 import "./Material.css";
 import axios from "axios";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
