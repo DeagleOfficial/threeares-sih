@@ -27,9 +27,7 @@ import axios from 'axios'
 import PieChart from "../components/PieChart";
 import LocModal from './LocModal'
 import React, { useEffect, useState } from "react";
-import { useTheme } from '@mui/material/styles';
-
-import useMediaQuery from '@mui/material/useMediaQuery';
+// import "./equipment.css";
 import "./Material.css";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import SplitSection from "../components/SplitSection";
@@ -49,19 +47,20 @@ const Material = () => {
   const [dist, setDist] = useState(0)
   const [data, setData] = useState([])
   const [O, setO] = useState({
-    latitude: 0, longitude: 0
+    latitude: 22.7196, longitude: 75.8577
   })
   const [D, setD] = useState({
-    latitude: 0, longitude: 0
+    latitude: 22.5726, longitude: 88.3639
   })
   const [st, setSt] = useState(null)
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up('sm'));
+
   var emissions_rate = 0
   const columns = ["Origin", "Destination", "Mass", "Means", "Distance", "Emission"];
   const options = {
     selectableRows: false
   };
+  const [transportDataEmission, setTransportDataEmission] = useState([]);
+
 
 
   const [defaultLocation, setDefaultLocation] = useState(DefaultLocation);
@@ -101,8 +100,8 @@ const Material = () => {
     // console.log(res)
     setData(previous => [
       ...previous, [
-        origin,
-        dest,
+        O.latitude + ", " + O.longitude,
+        D.latitude + ", " + D.longitude,
         mass,
         value,
         d,
@@ -141,6 +140,23 @@ const Material = () => {
 
     // console.log(O, D)
     addNew(haversine(O, D))
+
+    setTransportDataEmission([]);
+
+    setTransportDataEmission(prev => [
+      ...prev,
+      { argument: `Road`, value: 1.65 * mass * haversine(O, D) }
+    ]);
+
+    setTransportDataEmission(prev => [
+      ...prev,
+      { argument: `Rail`, value: 0.0157 * mass * haversine(O, D) }
+    ]);
+
+    setTransportDataEmission(prev => [
+      ...prev,
+      { argument: `Air`, value: 1.404 * mass * haversine(O, D) }
+    ]);
   }
 
   //  function handleChangeLocation (lat, lng, state){
@@ -195,7 +211,6 @@ const Material = () => {
           >
             <Box
               display="flex"
-              flexDirection={matches ? 'row' : 'column'}
               justifyContent="center"
               alignItems="center"
             // minHeight="100vh"
@@ -237,7 +252,7 @@ const Material = () => {
                     required
                     id="outlined-basic"
                     // disabled={true}
-                    label="Origin" variant="outlined" value={O.latitude + " " + O.longitude}
+                    label="Origin" variant="outlined" value={O.latitude + ", " + O.longitude}
                     onClick={() => {
                       setSt('O')
                       handleOpen()
@@ -255,7 +270,7 @@ const Material = () => {
                     size="normal"
                     required
                     id="outlined-basic"
-                    label="Destination" variant="outlined" value={D.latitude + " " + D.longitude} onClick={() => {
+                    label="Destination" variant="outlined" value={D.latitude + ", " + D.longitude} onClick={() => {
                       setSt('D')
                       handleOpen()
                     }} />
@@ -277,7 +292,6 @@ const Material = () => {
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "center"
-
                   }}>
                     <FormLabel id="demo-radio-buttons-group-label">Means &nbsp; &nbsp;</FormLabel>
                     <RadioGroup
@@ -289,10 +303,6 @@ const Material = () => {
                       // defaultValue="female"
                       value={value}
                       onChange={handleChange}
-                      sx={{
-                        maxWidth: "60vw",
-                        overflow: "hidden"
-                      }}
                     >
                       <FormControlLabel value="RAIL" control={<Radio />} label="Rail" />
                       <FormControlLabel value="ROAD" control={<Radio />} label="Road" />
@@ -349,6 +359,22 @@ const Material = () => {
                 </Button> */}
               </div>
 
+              {transportDataEmission.length > 0 && <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "50%",
+                  textAlign: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <PieChart
+                  data={transportDataEmission}
+                  label={`Transport `}
+                />
+              </div>
+              }
 
               {/* test */}
               {/* <Grid
