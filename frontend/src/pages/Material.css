@@ -18,7 +18,24 @@
 .css-f0xsrb-MuiGrid-root{
     max-width: 1;
 }
-.css-gkopid-MuiGrid-root{
-margin-left: 0 !important;
+/* .css-gkopid-MuiGrid-root{
+margin-left: -20px !important;
+} */
+
+#calculateBtn {
+    
 }
+
+.form-grid {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
+.MuiGrid-grid-xs-12 {
+    height: fit-content;
+    padding: 0px 0px 0px 0px !important;
+    margin: 20px;
+}
+
 }
