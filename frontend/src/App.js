@@ -1,11 +1,17 @@
+import Router from './routes';
+import ThemeProvider from './theme';
 import './App.css';
 
-const App = () => {
+
+
+
+export default function App() {
+
+
   return (
-    <div className="App">
-      App
-    </div>
+    <ThemeProvider>
+
+      <Router />
+    </ThemeProvider>
   );
 }
-
-export default App;
