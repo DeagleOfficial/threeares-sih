@@ -1,11 +1,26 @@
+// routes
+import Router from './routes';
+// theme
+import ThemeProvider from './theme';
+// components
+import ScrollToTop from './components/ScrollToTop';
+import { BaseOptionChartStyle } from './components/chart/BaseOptionChart';
 import './App.css';
 
-const App = () => {
+//import DashboardNavbar from './layouts/userboard/DashboardNavbar';
+
+
+// ----------------------------------------------------------------------
+
+export default function App() {
+
+  
   return (
-    <div className="App">
-      App
-    </div>
+    <ThemeProvider>
+      <ScrollToTop />
+      
+      <BaseOptionChartStyle />
+      <Router />
+    </ThemeProvider>
   );
 }
-
-export default App;
