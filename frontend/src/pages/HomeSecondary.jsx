@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import NewsLetter from "../components/NewsLetter";
 import SlickSlider from "../components/SlickSlider";
-import ResponsiveAppBar from "../../src/components/ResponsiveAppBar";
+import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import SplitSection from "../../src/components/SplitSection";
 import SplitSectionInverted2 from "../../src/components/SplitSectionInverted2";
 import './HomeSecondary.css';
