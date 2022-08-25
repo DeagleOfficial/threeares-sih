@@ -27,7 +27,9 @@ import axios from 'axios'
 import PieChart from "../components/PieChart";
 import LocModal from './LocModal'
 import React, { useEffect, useState } from "react";
-// import "./equipment.css";
+import { useTheme } from '@mui/material/styles';
+
+import useMediaQuery from '@mui/material/useMediaQuery';
 import "./Material.css";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import SplitSection from "../components/SplitSection";
@@ -53,7 +55,8 @@ const Material = () => {
     latitude: 0, longitude: 0
   })
   const [st, setSt] = useState(null)
-
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
   var emissions_rate = 0
   const columns = ["Origin", "Destination", "Mass", "Means", "Distance", "Emission"];
   const options = {
@@ -192,6 +195,7 @@ const Material = () => {
           >
             <Box
               display="flex"
+              flexDirection={matches ? 'row' : 'column'}
               justifyContent="center"
               alignItems="center"
             // minHeight="100vh"
@@ -273,6 +277,7 @@ const Material = () => {
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "center"
+
                   }}>
                     <FormLabel id="demo-radio-buttons-group-label">Means &nbsp; &nbsp;</FormLabel>
                     <RadioGroup
@@ -284,6 +289,10 @@ const Material = () => {
                       // defaultValue="female"
                       value={value}
                       onChange={handleChange}
+                      sx={{
+                        maxWidth: "60vw",
+                        overflow: "hidden"
+                      }}
                     >
                       <FormControlLabel value="RAIL" control={<Radio />} label="Rail" />
                       <FormControlLabel value="ROAD" control={<Radio />} label="Road" />
