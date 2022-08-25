@@ -14,297 +14,296 @@ import SplitSection from "../components/SplitSection";
 import materialDetails from "../data/material_estimator";
 
 const Material = () => {
-    const [equip, setEquip] = React.useState("");
-    const [weight, setWeight] = useState("");
-    const [chartDataEmission, setChartDataEmission] = useState([]);
-    const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.up('sm'));
-    const [emission, setEmission] = useState(0);
+  const [equip, setEquip] = React.useState("");
+  const [weight, setWeight] = useState("");
+  const [chartDataEmission, setChartDataEmission] = useState([]);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
+  const [emission, setEmission] = useState(0);
 
-    var emissions_rate = 0;
-    const columns = [
-        "Division",
-        "Material Name",
-        "Weight",
-        "Emissions(MT of CO2)",
-    ];
-    const [data, setData] = useState([]);
+  var emissions_rate = 0;
+  const columns = [
+    "Division",
+    "Material Name",
+    "Weight",
+    "Emissions(MT of CO2)",
+  ];
+  const [data, setData] = useState([]);
 
-    const options = {
-        selectableRows: false,
-        elevation: 0
-    };
+  const options = {
+    selectableRows: false,
+    elevation: 0
+  };
 
-    const handleChange = (event) => {
-        setEquip(event.target.value);
-    };
-    const calculate = () => {
-        setEmission(0);
-        setChartDataEmission([]);
-        {
-            data.map((d) => {
-                setEmission((prev) => d[3] + prev);
-                console.log(d[5]);
-                setChartDataEmission((prev) => [
-                    ...prev,
-                    { argument: d[1], value: d[3] },
-                ]);
-            });
-        }
-    };
-    const addNew = ({ id }) => {
-        setData((previous) => [
-            ...previous,
-            [
-                equip["Div ID"],
-                equip["Material Description"],
-                weight,
-                weight * equip["Published Factor"],
-            ],
+  const handleChange = (event) => {
+    setEquip(event.target.value);
+  };
+  const calculate = () => {
+    setEmission(0);
+    setChartDataEmission([]);
+    {
+      data.map((d) => {
+        setEmission((prev) => d[3] + prev);
+        console.log(d[5]);
+        setChartDataEmission((prev) => [
+          ...prev,
+          { argument: d[1], value: d[3] },
         ]);
-    };
+      });
+    }
+  };
+  const addNew = ({ id }) => {
+    setData((previous) => [
+      ...previous,
+      [
+        equip["Div ID"],
+        equip["Material Description"],
+        weight,
+        weight * equip["Published Factor"],
+      ],
+    ]);
+  };
 
-    return (
-        <>
-          <div className="appbar">
-            <CssBaseline />
-            <ResponsiveAppBar />
-          </div>
-          <div className="main-container">
-            <SplitSection
-              heading="Material GHG Estimator"
-              description="The ThreeAres Material Estimator allows the user to generate emission reports that estimate the carbon dioxide emissions associated with materials used in highway constructions projects. Materials are classified according to MDOT's Standard Specifications for Construction's Division 9  material classifications. The tool estimates cradle to gate emissions and can be used to differentiate impacts of using composite materials that make up the roadway."
-              image="https://img.freepik.com/free-vector/calculator-concept-illustration_114360-1239.jpg"
-              routepath="#calculator-div"
-              height="90vh"
-              border="30px solid white"
-            />
-            <div className="main-content" id="calculator-div"
-              style={{
-                margin: "20px",
-                border: "1px solid #008000"
-              }}
+  return (
+    <>
+      <div className="appbar">
+        <CssBaseline />
+        <ResponsiveAppBar />
+      </div>
+      <div className="main-container">
+        <SplitSection
+          heading="Material GHG Estimator"
+          description="The ThreeAres Material Estimator allows the user to generate emission reports that estimate the carbon dioxide emissions associated with materials used in highway constructions projects. Materials are classified according to MDOT's Standard Specifications for Construction's Division 9  material classifications. The tool estimates cradle to gate emissions and can be used to differentiate impacts of using composite materials that make up the roadway."
+          image="https://img.freepik.com/free-vector/calculator-concept-illustration_114360-1239.jpg"
+          routepath="#calculator-div"
+          height="90vh"
+          border="30px solid white"
+        />
+        <div className="main-content" id="calculator-div"
+          style={{
+            margin: "20px",
+            border: "1px solid #008000"
+          }}
+        >
+          <Paper elevation={0}
+          >
+            <Box
+              display="flex"
+              flexDirection={matches ? 'row' : 'column'}
+              justifyContent="center"
+              alignItems="center"
+            // minHeight="100vh"
             >
-              <Paper elevation={0}
+              <Grid
+                container
+                className="form-grid"
+                xs={12}
+                lg={6}
+                direction={"column"}
+                spacing={5}
+                justifyContent="center"
               >
-                <Box
-                  display="flex"
-                  flexDirection={matches ? 'row' : 'column'}
-                  justifyContent="center"
-                  alignItems="center"
-                // minHeight="100vh"
-                >
-                  <Grid
-                    container
-                    className="form-grid"
-                    xs={12}
-                    lg={6}
-                    direction={"column"}
-                    spacing={5}
-                    justifyContent="center"
-                  >
-                    <Grid item xs={12}>
-                      <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">
-                          Materials
-                        </InputLabel>
-                        <Select
-                          labelId="Materials"
-                          id="demo-simple-select"
-                          value={equip}
-                          label="Material"
-                          onChange={handleChange}
-    
-                          sx={{
-                            maxWidth: "60vw",
-                            overflow: "hidden"
-                          }}
-                        >
-                          {materialDetails.map((item) => (
-                            <MenuItem value={item}>
-                              {item["Material Description"]}
-                            </MenuItem>
-                          ))}
-                          {/* <MenuItem value={10}>Ten</MenuItem>
-                                                <MenuItem value={20}>Twenty</MenuItem>
-                                                <MenuItem value={30}>Thirty</MenuItem> */}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        className="textfield"
-                        style={{
-                          width: "100%",
-    
-                        }}
-    
-    
-                        size="normal"
-                        required
-                        id="outlined-basic"
-                        label="Weight"
-                        variant="outlined"
-                        value={weight}
-                        onChange={(e) => {
-                          setWeight(e.target.value);
-                        }}
-                      />
-                    </Grid>
-    
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        width: "100%",
-                        textAlign: "center",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        margin: "0px"
+                <Grid item xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">
+                      Materials
+                    </InputLabel>
+                    <Select
+                      labelId="Materials"
+                      id="demo-simple-select"
+                      value={equip}
+                      label="Material"
+                      onChange={handleChange}
+
+                      sx={{
+                        maxWidth: "60vw",
+                        overflow: "hidden"
                       }}
                     >
-                      <Button
-                        id="calculate-btn"
-                        style={{
-                          fontFamily: "montserrat",
-                          width: "250px",
-                          marginLeft: "0px",
-                          marginTop: "20px",
-                          marginBottom: "20px",
-                          background: "white",
-                          color: "#008000",
-                          boxShadow: "none",
-                          border: "1px solid #008000",
-                          borderRadius: "0px",
-                          transition: "0.4s ease",
-    
-                        }}
-                        onClick={addNew}
-                      >
-                        ADD New Emission
-                      </Button>
-    
-                      <Button
-                        id="calculate-btn"
-                        style={{
-                          fontFamily: "montserrat",
-                          width: "250px",
-                          marginLeft: "0px",
-                          marginTop: "20px",
-                          marginBottom: "20px",
-                          background: "white",
-                          color: "#008000",
-                          boxShadow: "none",
-                          border: "1px solid #008000",
-                          borderRadius: "0px",
-                          transition: "0.4s ease",
-                        }}
-                        onClick={calculate}
-                      >
-                        Calculate
-                      </Button>
-                    </div>
-                  </Grid>
-    
-                  {/* test */}
-                  <Grid
-                    container
-                    className="form-grid"
-                    xs={12}
-                    sm={12}
-                    lg={6}
-                    // direction={"column"}
-                    // spacing={5}
-                    justifyContent="center"
-    
+                      {materialDetails.map((item) => (
+                        <MenuItem value={item}>
+                          {item["Material Description"]}
+                        </MenuItem>
+                      ))}
+                      {/* <MenuItem value={10}>Ten</MenuItem>
+                                                <MenuItem value={20}>Twenty</MenuItem>
+                                                <MenuItem value={30}>Thirty</MenuItem> */}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    className="textfield"
+                    style={{
+                      width: "100%",
+
+                    }}
+
+
+                    size="normal"
+                    required
+                    id="outlined-basic"
+                    label="Weight"
+                    variant="outlined"
+                    value={weight}
+                    onChange={(e) => {
+                      setWeight(e.target.value);
+                    }}
+                  />
+                </Grid>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "100%",
+                    textAlign: "center",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "0px"
+                  }}
+                >
+                  <Button
+                    id="calculate-btn"
+                    style={{
+                      fontFamily: "montserrat",
+                      width: "250px",
+                      marginLeft: "0px",
+                      marginTop: "20px",
+                      marginBottom: "20px",
+                      background: "white",
+                      color: "#008000",
+                      boxShadow: "none",
+                      border: "1px solid #008000",
+                      borderRadius: "0px",
+                      transition: "0.4s ease",
+
+                    }}
+                    onClick={addNew}
                   >
-                    <Grid item xs={12} sm={12} lg={6}
-    
-                    >
-                      <TextField
-                        className="textfield"
-                        style={{
-                          margin: "20px",
-                          width: "300px",
-                        }}
-    
-                        id="outlined-basic"
-                        label="Emissions"
-                        variant="outlined"
-                        value={emission}
-                      />
-                    </Grid>
-                  </Grid>
-                </Box>
-              </Paper>
-    
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-around",
-                  background: "white",
-                }}
+                    ADD New Emission
+                  </Button>
+
+                  <Button
+                    id="calculate-btn"
+                    style={{
+                      fontFamily: "montserrat",
+                      width: "250px",
+                      marginLeft: "0px",
+                      marginTop: "20px",
+                      marginBottom: "20px",
+                      background: "white",
+                      color: "#008000",
+                      boxShadow: "none",
+                      border: "1px solid #008000",
+                      borderRadius: "0px",
+                      transition: "0.4s ease",
+                    }}
+                    onClick={calculate}
+                  >
+                    Calculate
+                  </Button>
+                </div>
+              </Grid>
+
+              {/* test */}
+              <Grid
+                container
+                className="form-grid"
+                xs={12}
+                sm={12}
+                lg={6}
+                // direction={"column"}
+                // spacing={5}
+                justifyContent="center"
+
               >
-    
-              </div>
-            </div>
+                <Grid item xs={12} sm={12} lg={6}
+
+                >
+                  <TextField
+                    className="textfield"
+                    style={{
+                      margin: "20px",
+                      width: "300px",
+                    }}
+
+                    id="outlined-basic"
+                    label="Emissions"
+                    variant="outlined"
+                    value={emission}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+          </Paper>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              background: "white",
+            }}
+          >
+
           </div>
-    
+        </div>
+      </div>
+
+      <div style={{
+        margin: "20px"
+      }}>
+        <div style={{
+          border: "1px solid #008000"
+        }}>
+
+          <MUIDataTable
+
+            title={"Emission List"}
+
+            data={data}
+            columns={columns}
+            options={options}
+
+            style={{
+              fontFamily: "Montserrat !important",
+              marginTop: "10px"
+            }}
+          />
+
+        </div>
+      </div>
+
+      <div className="whitespace" style={{
+        height: "20px"
+      }}></div>
+
+      {chartDataEmission.length > 0 && (
+        <>
           <div style={{
-            margin: "20px"
+            margin: "20px",
           }}>
             <div style={{
-              border: "1px solid #008000"
+
+
+              padding: "10px",
+              border: "1px solid #008000",
             }}>
-    
-              <MUIDataTable
-    
-                title={"Emission List"}
-    
-                data={data}
-                columns={columns}
-                options={options}
-    
-                style={{
-                  fontFamily: "Montserrat !important",
-                  marginTop: "10px"
-                }}
+              <PieChart
+                data={chartDataEmission}
+                label="Emission Rate PieChart"
               />
-    
             </div>
           </div>
-    
+
           <div className="whitespace" style={{
             height: "20px"
           }}></div>
-    
-          {chartDataEmission.length > 0 && (
-            <>
-              <div style={{
-                margin: "20px",
-              }}>
-                <div style={{
-    
-    
-                  padding: "10px",
-                  border: "1px solid #008000",
-                }}>
-                  <PieChart
-                    data={chartDataEmission}
-                    label="Emission Rate PieChart"
-                  />
-                </div>
-              </div>
-    
-              <div className="whitespace" style={{
-                height: "20px"
-              }}></div>
-            </>
-    
-          )}
         </>
-      );
-    };
-    
-    export default Material;
-    
+
+      )}
+    </>
+  );
+};
+
+export default Material;    
