@@ -43,23 +43,23 @@ const Material = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const [emission, setEmission] = useState(0);
-  const [currentCategory,setCurrentCategory]=useState("");
-  const [qualityElement,setQualityElement]=useState([]);
-  const [qualityVal,setQualityVal]=useState(null);
+  const [currentCategory, setCurrentCategory] = useState("");
+  const [qualityElement, setQualityElement] = useState([]);
+  const [qualityVal, setQualityVal] = useState(null);
 
   // const planPieChart=[];
-  const [planPieChart,setPlanPieChart]=useState([]);
+  const [planPieChart, setPlanPieChart] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setPlanPieChart([]);
-    compareListMaterial?.map((data,id)=> {
-      var tot=0;
-      data.map(val=>{
-          tot+=val.value;
+    compareListMaterial?.map((data, id) => {
+      var tot = 0;
+      data.map(val => {
+        tot += val.value;
       })
 
-      console.log("DIe",data);
-      
+      console.log("DIe", data);
+
       setPlanPieChart((prev) => [
         ...prev,
         { argument: `Plan ${id}`, value: tot },
@@ -69,13 +69,13 @@ const Material = () => {
       //   { argument: data.argument, value: data.value },
       // )
 
-  })
-  },[]);
+    })
+  }, []);
   var bestPackage = null;
-    var minCostEmission= 1000000000000;
+  var minCostEmission = 1000000000000;
   var compareListMaterial = [[]];
 
-  compareListMaterial=JSON.parse(localStorage.getItem('compareListMaterial'));
+  compareListMaterial = JSON.parse(localStorage.getItem('compareListMaterial'));
 
 
   var emissions_rate = 0;
@@ -96,8 +96,8 @@ const Material = () => {
     setEquip(event.target.value);
   };
 
-  const handleChange2 = (e) =>{
-    console.log("VALASD",e.target.value.simulation)
+  const handleChange2 = (e) => {
+    console.log("VALASD", e.target.value.simulation)
     setQualityVal(e.target.value);
   }
   const calculate = () => {
@@ -129,28 +129,28 @@ const Material = () => {
     ]);
   };
 
-  const addToCompareList = () =>{
+  const addToCompareList = () => {
 
-    console.log("StringValue",data);
-    
-    var currentVal=[];
-    
+    console.log("StringValue", data);
+
+    var currentVal = [];
+
     {
-        data.map((d) => {
+      data.map((d) => {
 
-            currentVal.push(                    {
-                argument: d[1],value: d[3]
-            }
-            )
-           
-        });
+        currentVal.push({
+          argument: d[1], value: d[3]
+        }
+        )
+
+      });
     }
 
-    if(!compareListMaterial)compareListMaterial=[[]]
-    console.log("PREvious Value",compareListMaterial);
+    if (!compareListMaterial) compareListMaterial = [[]]
+    console.log("PREvious Value", compareListMaterial);
     compareListMaterial.push(currentVal);
-    
-    console.log("CurrentValue",currentVal);
+
+    console.log("CurrentValue", currentVal);
 
     localStorage.setItem('compareListMaterial', JSON.stringify(compareListMaterial));
 
@@ -160,20 +160,20 @@ const Material = () => {
 
     // },1000);
 
-}
+  }
 
-const qualityAdd = ()=>{
-  console.log("ADFUCK",parseInt(qualityVal['simulation']['Tensile Strength']))
-  setQualityElement((prev) => [
-    ...prev,
-    { argument: `${qualityVal.name} Tensile Strength  = ${parseInt(qualityVal['simulation']['Tensile Strength'])}`, value:parseInt(qualityVal['simulation']['Tensile Strength'])},
-  ]);
-}
-const clearCompareList = ()=>{
+  const qualityAdd = () => {
+    console.log("ADFUCK", parseInt(qualityVal['simulation']['Tensile Strength']))
+    setQualityElement((prev) => [
+      ...prev,
+      { argument: `${qualityVal.name} Tensile Strength  = ${parseInt(qualityVal['simulation']['Tensile Strength'])}`, value: parseInt(qualityVal['simulation']['Tensile Strength']) },
+    ]);
+  }
+  const clearCompareList = () => {
     localStorage.removeItem("compareListMaterial");
     window.location.reload();
-}
-console.log("MaterialDetails",materialDetails)
+  }
+  console.log("MaterialDetails", materialDetails)
   return (
     <>
       <div className="appbar">
@@ -200,9 +200,9 @@ console.log("MaterialDetails",materialDetails)
         >
           <Paper elevation={0}
 
-          sx={{
-            borderRadius: "20px !important"
-          }}
+            sx={{
+              borderRadius: "20px !important"
+            }}
           >
             <Box
               display="flex"
@@ -244,12 +244,13 @@ console.log("MaterialDetails",materialDetails)
                         })
                       } */}
                       {materialDetails.map((item) => {
-                        if(item.DivId == currentCategory || currentCategory == "")
-                        return(
-                        <MenuItem value={item} >
-                          {item["Material Description"]}
-                        </MenuItem>
-                      )})}
+                        if (item.DivId == currentCategory || currentCategory == "")
+                          return (
+                            <MenuItem value={item} >
+                              {item["Material Description"]}
+                            </MenuItem>
+                          )
+                      })}
                       {/* <MenuItem value={10}>Ten</MenuItem>
                                             <MenuItem value={20}>Twenty</MenuItem>
                                             <MenuItem value={30}>Thirty</MenuItem> */}
@@ -329,36 +330,36 @@ console.log("MaterialDetails",materialDetails)
                   >
                     Calculate Emission
                   </Button>
-                  <Button  style={{
-                                            fontFamily: "montserrat",
-                                            width: "250px",
-                                            marginLeft: "0px",
-                                            marginTop: "20px",
-                                            marginBottom: "20px",
-                                            background: "white",
-                                            color: "#008000",
-                                            boxShadow: "none",
-                                            border: "1px solid #008000",
-                                            borderRadius: "0px",
-                                            transition: "0.4s ease",
-                                        }}
-                                        onClick={addToCompareList}
-                                        >Compare Plans</Button>
-                                    <Button style={{
-                                            fontFamily: "montserrat",
-                                            width: "250px",
-                                            marginLeft: "0px",
-                                            marginTop: "20px",
-                                            marginBottom: "20px",
-                                            background: "white",
-                                            color: "#008000",
-                                            boxShadow: "none",
-                                            border: "1px solid #008000",
-                                            borderRadius: "0px",
-                                            transition: "0.4s ease",
-                                        }}
-                                        onClick={clearCompareList}
-                                        > Clear Comparison</Button>
+                  <Button style={{
+                    fontFamily: "montserrat",
+                    width: "250px",
+                    marginLeft: "0px",
+                    marginTop: "20px",
+                    marginBottom: "20px",
+                    background: "white",
+                    color: "#008000",
+                    boxShadow: "none",
+                    border: "1px solid #008000",
+                    borderRadius: "0px",
+                    transition: "0.4s ease",
+                  }}
+                    onClick={addToCompareList}
+                  >Compare Plans</Button>
+                  <Button style={{
+                    fontFamily: "montserrat",
+                    width: "250px",
+                    marginLeft: "0px",
+                    marginTop: "20px",
+                    marginBottom: "20px",
+                    background: "white",
+                    color: "#008000",
+                    boxShadow: "none",
+                    border: "1px solid #008000",
+                    borderRadius: "0px",
+                    transition: "0.4s ease",
+                  }}
+                    onClick={clearCompareList}
+                  > Clear Comparison</Button>
                 </div>
               </Grid>
 
@@ -445,14 +446,14 @@ console.log("MaterialDetails",materialDetails)
             background: "white",
             borderRadius: "20px",
             boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-            
+
           }}>
             <div style={{
 
 
               padding: "10px",
               // border: "1px solid #008000",
-              
+
             }}>
               <PieChart
                 data={chartDataEmission}
@@ -467,172 +468,173 @@ console.log("MaterialDetails",materialDetails)
         </>
 
       )}
-       {
-            compareListMaterial?.length > 0 && (  <div style={{
-              margin: "20px",
-              background: "white",
-              padding: "20px",
-              boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-              borderRadius: "20px",
-              marginBottom: "40px"
-            }}>
-                <h3><b>Compare List</b></h3><br />
-                <div id="compareList"
-                //  style={{display: 'flex',flexDirection:'row',justifyContent:"space-between"}}
-                  style={{
-                    
-                  }}
-                  >
-                    {
-                        compareListMaterial?.map((data,id)=> {
-                            var tot=0;
-                            data.map(val=>{
-                                tot+=val.value;
-                            })
-                            
-                            // setPlanPieChart((prev) => [
-                            //   ...prev,
-                            //   { argument: data.argument, value: data.value },
-                            // ]);
+      {
+        compareListMaterial?.length > 0 && (<div style={{
+          margin: "20px",
+          background: "white",
+          padding: "20px",
+          boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+          borderRadius: "20px",
+          marginBottom: "40px"
+        }}>
+          <h3><b>Compare List</b></h3><br />
+          <div id="compareList"
+            //  style={{display: 'flex',flexDirection:'row',justifyContent:"space-between"}}
+            style={{
 
-                            // planPieChart.push(
-                            //   { argument: data.argument, value: data.value },
-                            // )
+            }}
+          >
+            {
+              compareListMaterial?.map((data, id) => {
+                var tot = 0;
+                data.map(val => {
+                  tot += val.value;
+                })
 
-                            if(  data.length>0 && tot<minCostEmission){
-                                minCostEmission=tot;
-                                bestPackage=(id);
-                            }
-                            return data.length>0 &&  <div style={{
-                                // background: "blue",
-                                // padding: "10px",
-                                border: "1px solid #008000",
-                            }}>
-                                <PieChart
-                                    data={data}
-                                    label={`Plan ${id}`}
-                                />
-                                {
+                // setPlanPieChart((prev) => [
+                //   ...prev,
+                //   { argument: data.argument, value: data.value },
+                // ]);
 
-                                    <p style = {{
-                                      margin: "10px"
-                                    }}>Total emissions for plan {id}: {tot}</p>
-                                }
-                            </div>
-                        })
+                // planPieChart.push(
+                //   { argument: data.argument, value: data.value },
+                // )
 
-                    }
+                if (data.length > 0 && tot < minCostEmission) {
+                  minCostEmission = tot;
+                  bestPackage = (id);
+                }
+                return data.length > 0 && <div style={{
+                  // background: "blue",
+                  // padding: "10px",
+                  border: "1px solid #008000",
+                }}>
+                  <PieChart
+                    data={data}
+                    label={`Plan ${id}`}
+                  />
+                  {
+
+                    <p style={{
+                      margin: "10px"
+                    }}>Total emissions for plan {id}: {tot}</p>
+                  }
                 </div>
-               {bestPackage && ( <PieChart
-                                    data={planPieChart}
-                                    label={`Plan Optimization Metrics`}
-                                />)}
-               {bestPackage && ( <p style = {{
-                width: "100%",
-                textAlign: "center",
-                paddingBottom: "10px"
-               }}><b>Best Plan to use is :  Plan {bestPackage}</b></p>)}
+              })
 
-            </div>
-            )
-        } 
-        <div 
+            }
+          </div>
+          {bestPackage && (<PieChart
+            data={planPieChart}
+            label={`Plan Optimization Metrics`}
+          />)}
+          {bestPackage && (<p style={{
+            width: "100%",
+            textAlign: "center",
+            paddingBottom: "10px"
+          }}><b>Best Plan to use is :  Plan {bestPackage}</b></p>)}
+
+        </div>
+        )
+      }
+      <div
 
         className="hideinmobile"
         style={{
-                margin: "20px",
-                background: "white !important",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center"
+          margin: "20px",
+          background: "white !important",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center"
 
-            }}>
-              <h3>Quality Checker Material</h3>
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+        }}>
+        <h3>Quality Checker Material</h3>
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}
 
 
 
-                    sx={{
-                        margin: "20px",
-                        background: "white !important",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderRadius: "20px",
-                        boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-                    }}
-                >
-                    <Grid item xs={12} lg={12}>
-                        {/* <Item> */}
-                            <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">
-                      Materials
-                    </InputLabel>
-                    <Select
-                      labelId="Materials"
-                      // id="demo-simple-select"
-                      value={qualityVal?.name}
-                      label="Material"
-                      onChange={handleChange2}
+          sx={{
+            margin: "20px",
+            background: "white !important",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: "20px",
+            boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+          }}
+        >
+          <Grid item xs={12} lg={12}>
+            {/* <Item> */}
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">
+                Materials
+              </InputLabel>
+              <Select
+                labelId="Materials"
+                // id="demo-simple-select"
+                value={qualityVal?.name}
+                label="Material"
+                onChange={handleChange2}
 
-                      sx={{
-                        maxWidth: "99%",
-                        overflow: "hidden",
-                        marginTop: "20px"
-                      }}
-                    >
-                      {/* {
+                sx={{
+                  maxWidth: "99%",
+                  overflow: "hidden",
+                  marginTop: "20px"
+                }}
+              >
+                {/* {
                         materialDetails.filter((item)=>{
 
                         })
                       } */}
-                      {materialsList.map((item) => {
-                        return(
-                        <MenuItem value={item} key={item.matid} >
-                          {item["name"]}
-                        </MenuItem>
-                      )})}
-                      {/* <MenuItem value={10}>Ten</MenuItem>
+                {materialsList.map((item) => {
+                  return (
+                    <MenuItem value={item} key={item.matid} >
+                      {item["name"]}
+                    </MenuItem>
+                  )
+                })}
+                {/* <MenuItem value={10}>Ten</MenuItem>
                                             <MenuItem value={20}>Twenty</MenuItem>
                                             <MenuItem value={30}>Thirty</MenuItem> */}
-                    </Select>
-                            </FormControl>
-                        {/* </Item> */}
-                    </Grid>
-                    
-                    
-
-                    <Button
-
-                        className="btn"
-
-                        style={{
-                            fontFamily: "montserrat",
-                            width: "250px",
-                            marginLeft: "0px",
-                            marginTop: "20px",
-                            marginBottom: "20px",
-                            background: "white",
-                            color: "#008000",
-                            boxShadow: "none",
-                            border: "1px solid #008000",
-                            borderRadius: "0px",
-                            transition: "0.4s ease",
-                        }}
-                    onClick={e=>qualityAdd()}
-                    >Calculate</Button>
-                    {qualityElement.length>0  && 
-
-                     <PieChart
-                                        data={qualityElement}
-                                        // label={`Quality Checker Material`}
-                                    />}
-                </Grid>
+              </Select>
+            </FormControl>
+            {/* </Item> */}
+          </Grid>
 
 
 
-            </div>
+          <Button
+
+            className="btn"
+
+            style={{
+              fontFamily: "montserrat",
+              width: "250px",
+              marginLeft: "0px",
+              marginTop: "20px",
+              marginBottom: "20px",
+              background: "white",
+              color: "#008000",
+              boxShadow: "none",
+              border: "1px solid #008000",
+              borderRadius: "0px",
+              transition: "0.4s ease",
+            }}
+            onClick={e => qualityAdd()}
+          >Calculate</Button>
+          {qualityElement.length > 0 &&
+
+            <PieChart
+              data={qualityElement}
+            // label={`Quality Checker Material`}
+            />}
+        </Grid>
+
+
+
+      </div>
     </>
   );
 };
