@@ -19,23 +19,27 @@ const pages = [
     name: 'Material Estimator',
     linkTo: '/material',
   },
-  // {
-  //   name: 'Equipments Estimator',
-  //   linkTo: '/equipment',
-  // },
   {
-    name: 'Transportation Estimator',
+    name: 'Equipments Estimator',
+    linkTo: '/equipment',
+  },
+  {
+    name: 'REO',
     linkTo: '/transport'
   },
 
-  // {
-  //   name: 'LCA Estimator',
-  //   linkTo: '/lca2',
-  // },
-  // {
-  //   name: 'Inventory',
-  //   linkTo: '/inventory'
-  // }
+  {
+    name: 'LCA Estimator',
+    linkTo: '/lca',
+  },
+  {
+    name: 'Vehicle GHG',
+    linkTo: '/vehicleGHG'
+  },
+  {
+    name: 'Inventory',
+    linkTo: '/inventory'
+  }
 ];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -127,7 +131,7 @@ const ResponsiveAppBar = () => {
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -138,9 +142,8 @@ const ResponsiveAppBar = () => {
               color: '#008000',
               textDecoration: 'none',
 
-            }
-            }
-            onClick={() => navigate('/')}
+            }}
+          // onClick={() => navigate('/')}
           >
             THREEARES
           </Typography>

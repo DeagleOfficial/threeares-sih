@@ -24,27 +24,30 @@ import { Box } from "@mui/material";
 import MUIDataTable from "mui-datatables";
 import './transport.css'
 import axios from 'axios'
-import PieChart from "../components/PieChart";
+import PieChart from "src/components/PieChart";
 import LocModal from './LocModal'
 import React, { useEffect, useState } from "react";
-// import "./equipment.css";
+import "./equipment.css";
 import "./Material.css";
-import ResponsiveAppBar from "../components/ResponsiveAppBar";
-import SplitSection from "../components/SplitSection";
+import ResponsiveAppBar from "src/components/ResponsiveAppBar";
+import SplitSection from "src/components/SplitSection";
 import haversine from "haversine";
-import materialDetails from "../data/material_estimator";
-
+import transportDetails from "../data/transport_estimator";
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import MapPicker from 'react-google-map-picker';
 
 const DefaultLocation = { lat: 22.7196, lng: 75.8577 };
 const DefaultZoom = 10;
 
-const Material = () => {
+const Transport = () => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const [origin, setOrigin] = useState('')
   const [dest, setDest] = useState('')
   const [mass, setMass] = useState('')
-  const [value, setValue] = React.useState('ROAD');
-  const [dist, setDist] = useState(0)
+  const [gco2, setGco2] = React.useState('');
+  const [type, setType] = useState(null)
   const [data, setData] = useState([])
   const [O, setO] = useState({
     latitude: 22.7196, longitude: 75.8577
@@ -55,7 +58,7 @@ const Material = () => {
   const [st, setSt] = useState(null)
 
   var emissions_rate = 0
-  const columns = ["Origin", "Destination", "Mass", "Means", "Distance", "Emission"];
+  const columns = ["Origin", "Destination", "Mass", "Type", "Distance", "Emission"];
   const options = {
     selectableRows: false
   };
@@ -92,9 +95,9 @@ const Material = () => {
 
 
   const handleChange = (event) => {
-
-
-    setValue(event.target.value);
+    console.log(event.target.value)
+    setType(event.target.value['type'] + "," + event.target.value['engineConfig'] + "," + event.target.value['subtype'])
+    setGco2(event.target.value['gCO2/t-km']);
   };
   const addNew = (d) => {
     // console.log(res)
@@ -103,16 +106,16 @@ const Material = () => {
         O.latitude + ", " + O.longitude,
         D.latitude + ", " + D.longitude,
         mass,
-        value,
-        d,
-        d * mass * emissions_rate,
+        type,
+        d.toFixed(4),
+        (d * mass * gco2 * 0.001).toFixed(4),
 
       ]
     ])
   };
 
   const calculate = async () => {
-    setDist(null)
+    // setDist(null)
     // const request = {
     //   method: "GET",
 
@@ -123,12 +126,12 @@ const Material = () => {
     //     "Content-Type": "application/json",
     //   },
     // };
-    if (value === 'ROAD')
-      emissions_rate = 1.65
-    else if (value === 'RAIL')
-      emissions_rate = .0157
-    else if (value === 'AIR')
-      emissions_rate = 1.404
+    // if (value === 'ROAD')
+    //   emissions_rate = 1.65
+    // else if (value === 'RAIL')
+    //   emissions_rate = .0157
+    // else if (value === 'AIR')
+    //   emissions_rate = 1.404
 
     // await axios.get(`https://distanceto.herokuapp.com/distance?pin1=${origin}&pin2=${dest}`).then((response) => {
     //   // setDist(parseInt(response.data))
@@ -141,22 +144,67 @@ const Material = () => {
     // console.log(O, D)
     addNew(haversine(O, D))
 
-    setTransportDataEmission([]);
+    // setTransportDataEmission([]);
+
+    // setTransportDataEmission(prev => [
+    //   ...prev, {
+    //     argument: `Road`, value: 1.65 * mass * haversine(O, D)
+    //   }
+    // ])
+
+    // setTransportDataEmission(prev => [
+    //   ...prev, {
+    //     argument: `Rail`, value: 0.0157 * mass * haversine(O, D)
+    //   }
+    // ])
+
+    // setTransportDataEmission(prev => [
+    //   ...prev, {
+    //     argument: `Air`, value: 1.404 * mass * haversine(O, D)
+    //   }
+    // ])
+
+
+    setTransportDataEmission([])
+
+
+
 
     setTransportDataEmission(prev => [
-      ...prev,
-      { argument: `Road`, value: 1.65 * mass * haversine(O, D) }
-    ]);
+      ...prev, {
+        argument: `Rigid (4X2Axle) 4UD`, value: 307.2 * mass * haversine(O, D)
+      }
+    ])
 
     setTransportDataEmission(prev => [
-      ...prev,
-      { argument: `Rail`, value: 0.0157 * mass * haversine(O, D) }
-    ]);
+      ...prev, {
+        argument: `Rigid (4X2Axle) 4RD`, value: 197.2 * mass * haversine(O, D)
+      }
+    ])
 
     setTransportDataEmission(prev => [
-      ...prev,
-      { argument: `Air`, value: 1.404 * mass * haversine(O, D) }
-    ]);
+      ...prev, {
+        argument: `Tractor (4X2Axle)`, value: 84 * mass * haversine(O, D)
+      }
+    ])
+
+    setTransportDataEmission(prev => [
+      ...prev, {
+        argument: `Tractor (6X2Axle)`, value: 58.3 * mass * haversine(O, D)
+      }
+    ])
+
+    // transportDetails.map(item => {
+    //   setTransportDataEmission(prev => [
+    //     ...prev, {
+    //       argument: `${item.type},${item.engineConfig}`, value: item["gCO2/t-km"] * mass * haversine(O, D)
+    //     }
+    //   ])
+    // })
+
+
+
+
   }
 
   //  function handleChangeLocation (lat, lng, state){
@@ -194,9 +242,12 @@ const Material = () => {
       </div>
       <div className="main-container">
         <SplitSection
-          heading="Transportation GHG Estimator"
-          description="The ThreeAres Material Estimator allows the user to generate emission reports that estimate the carbon dioxide emissions associated with materials used in highway constructions projects. Materials are classified according to MDOT's Standard Specifications for Construction's Division 9  material classifications. The tool estimates cradle to gate emissions and can be used to differentiate impacts of using composite materials that make up the roadway."
-          image="https://cdni.iconscout.com/illustration/premium/thumb/calculating-5329901-4481228.png"
+          style={{
+            overflowWrap: 'normal'
+          }}
+          heading="Route Emission Optimizer"
+          description="Transport heralds the development of a region. The demand for infrastructure augmentation increases with the region’s pursuit of development goals. The basic infrastructures required for the region’s economic growth are roads, railways, water and air connectivity. With the increase in economic activities, the dependence of fossil fuel based energy sources and consequent green house gas (GHG) emissions have increased rapidly in recent times. The transport sector in India consumes about 16.9% (36.5 mtoe: million tonnes of oil equivalent) of total energy (217 mtoe in 2005-06). "
+          image="https://cdn.kibrispdr.org/data/1789/map-gif-16.gif"
           routepath=""
           height="90vh"
           border="30px solid white"
@@ -204,16 +255,18 @@ const Material = () => {
         <div className="main-content"
           style={{
             margin: "20px",
-            border: "1px solid #008000"
+            // border: "1px solid #008000",
+            borderRadius: "20px",
+            boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
           }}
         >
           <Paper elevation={0}
           >
             <Box
               display="flex"
+              flexDirection={matches ? 'row' : 'column'}
               justifyContent="center"
               alignItems="center"
-            // minHeight="100vh"
             >
               <Grid
                 container
@@ -287,12 +340,14 @@ const Material = () => {
                       setMass(e.target.value)
                     }}
                   />
-                  <FormControl style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}>
+                  {/* <FormControl
+                    display={'flex'}
+                    flexDirection={matches ? 'column' : 'row'}
+                    style={{
+
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}>
                     <FormLabel id="demo-radio-buttons-group-label">Means &nbsp; &nbsp;</FormLabel>
                     <RadioGroup
                       style={{
@@ -308,6 +363,32 @@ const Material = () => {
                       <FormControlLabel value="ROAD" control={<Radio />} label="Road" />
                       <FormControlLabel value="AIR" control={<Radio />} label="Air" />
                     </RadioGroup>
+                  </FormControl> */}
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">
+                      Transport Type
+                    </InputLabel>
+                    <Select
+                      labelId="TransportType"
+                      id="demo-simple-select"
+                      // value={}
+                      label="Type"
+                      onChange={handleChange}
+
+                      sx={{
+                        // maxWidth: "60vw",
+                        overflow: "hidden"
+                      }}
+                    >
+                      {transportDetails.map((item) => (
+                        <MenuItem value={item}>
+                          {item.engineConfig + ", " + item.type + ", " + item.subtype}
+                        </MenuItem>
+                      ))}
+                      {/* <MenuItem value={10}>Ten</MenuItem>
+                                            <MenuItem value={20}>Twenty</MenuItem>
+                                            <MenuItem value={30}>Thirty</MenuItem> */}
+                    </Select>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -338,6 +419,8 @@ const Material = () => {
                   }}
                   onClick={calculate}>ADD New Emission</Button>
 
+
+
                 {/* <Button
                   id="calculate-btn"
                   style={{
@@ -359,22 +442,7 @@ const Material = () => {
                 </Button> */}
               </div>
 
-              {transportDataEmission.length > 0 && <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  width: "50%",
-                  textAlign: "center",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <PieChart
-                  data={transportDataEmission}
-                  label={`Transport `}
-                />
-              </div>
-              }
+
 
               {/* test */}
               {/* <Grid
@@ -423,7 +491,9 @@ const Material = () => {
         margin: "20px"
       }}>
         <div style={{
-          border: "1px solid #008000"
+          // border: "1px solid #008000",
+          borderRadius: "20px",
+          boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
         }}>
 
           <MUIDataTable
@@ -446,29 +516,24 @@ const Material = () => {
         height: "20px"
       }}></div>
 
-      {/* {chartDataEmission.length > 0 && (
-        <>
-          <div style={{
-            margin: "20px",
-          }}>
-            <div style={{
-              // background: "blue",
-              padding: "10px",
-              border: "1px solid #008000",
-            }}>
-              <PieChart
-                data={chartDataEmission}
-                label="Emission Rate PieChart"
-              />
-            </div>
-          </div>
-
-          <div className="whitespace" style={{
-            height: "20px"
-          }}></div>
-        </>
-
-      )} */}
+      {/* {
+        console.log("Piechart",transportDataEmission)
+      } */}
+      {transportDataEmission.length > 0 && <div
+        style={{
+          margin: "20px",
+          // border: "1px solid #008000",
+          borderRadius: "20px",
+          boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+          padding: "10px !important"
+        }}
+      >
+        <PieChart
+          data={transportDataEmission}
+          label={`Plan Optimization Metric`}
+        />
+      </div>
+      }
 
       {/* <iframe src="https://maps.google.com/maps?&hl=en&q=dermatologist&t=&z=13&ie=UTF8"></iframe> */}
 
@@ -495,7 +560,9 @@ const Material = () => {
       </Modal> */}
 
 
-      <div>
+      <div style={{
+        height: "20px"
+      }}>
         {/* <button onClick={handleResetLocation}>Reset Location</button>
     <label>Latitute:</label><input type='text' value={location.lat} disabled/>
     <label>Longitute:</label><input type='text' value={location.lng} disabled/>
@@ -507,4 +574,4 @@ const Material = () => {
   );
 };
 
-export default Material;
+export default Transport;

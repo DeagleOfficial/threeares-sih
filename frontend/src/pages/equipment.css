@@ -1,53 +1,52 @@
-/* .appbar{}
+
 .main-container{
     display: flex;
     flex-direction: column;
     text-align: center;
-
 }
-.title{
 
-}
 
 .form-grid {
     padding: 30px;
     display: flex;
 }
 
-.form-grid > TextField {
+.form-grid > FormControl > TextField {
     width: 500px;
 }
 
 .calculate-btn {
     margin: 20px;
-} */
+}
 
 .textfield input {
     padding: 15px !important;
 }
 #center-container{
     /* background: black; */
-    display: flex;
-    flex-direction: row ;
+    display: flex !important;
+    flex-direction: column !important ;
+
     
+
+}
+
+#compareList{
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-around  ;
 }
 
 @media only screen and (max-width: 600px) {
     #center-container{
 
+
     /* background:red; */
-    flex-direction: column !important ;
+    flex-direction: row !important ;
 
 }
-.css-f0xsrb-MuiGrid-root{
-    max-width: 1;
-}
-.css-gkopid-MuiGrid-root{
-margin-left: 0 !important;
-} 
-
-.MuiGrid-grid-xs-12 {
-    padding: 20px 20px 20px 20px !important;
-    margin-top: 10px;
-}
+    #compareList{
+        flex-direction: column !important ;
+        padding: 20px;
+    }
 }
