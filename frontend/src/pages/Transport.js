@@ -24,13 +24,13 @@ import { Box } from "@mui/material";
 import MUIDataTable from "mui-datatables";
 import './transport.css'
 import axios from 'axios'
-import PieChart from "src/components/PieChart";
+import PieChart from "../components/PieChart";
 import LocModal from './LocModal'
 import React, { useEffect, useState } from "react";
 import "./equipment.css";
 import "./Material.css";
-import ResponsiveAppBar from "src/components/ResponsiveAppBar";
-import SplitSection from "src/components/SplitSection";
+import ResponsiveAppBar from "../components/ResponsiveAppBar";
+import SplitSection from "../components/SplitSection";
 import haversine from "haversine";
 import transportDetails from "../data/transport_estimator";
 import { useTheme } from '@mui/material/styles';

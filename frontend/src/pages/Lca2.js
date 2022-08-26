@@ -2,7 +2,7 @@ import { AppBar, Checkbox, Grid, InputLabel, MenuItem, Paper, Select, Tab, Tabs,
 import { TextField, Button, FormControlLabel, RadioGroup, FormLabel, FormControl, Radio, CssBaseline } from '@mui/material'
 import { Box } from '@mui/system'
 import MUIDataTable from "mui-datatables";
-import ResponsiveAppBar from 'src/components/ResponsiveAppBar';
+import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useState } from 'react'
@@ -11,7 +11,7 @@ import './lca2.css'
 import axios from 'axios'
 // import lcaData2 from '../data/lca2_data'
 import LcaSelect from './LcaSelect';
-import SplitSection from 'src/components/SplitSection';
+import SplitSection from '../components/SplitSection';
 
 const Lca2 = () => {
     const theme = useTheme();
@@ -159,21 +159,21 @@ const Lca2 = () => {
                                         <TextField
                                             autoComplete='off'
                                             style={{
-                                            margin: "20px",
-                                            width: "300px"
-                                            
-                                        }} required id="outlined-basic" label="Units of electricity purchased from grid (in kWH)" variant="standard"
+                                                margin: "20px",
+                                                width: "300px"
+
+                                            }} required id="outlined-basic" label="Units of electricity purchased from grid (in kWH)" variant="standard"
                                             onChange={(e) => {
                                                 setElectricty(e.target.value)
                                             }} />
 
-                                        <TextField 
+                                        <TextField
                                             autoComplete='off'
-                                        
-                                        style={{
-                                            margin: "20px",
-                                            width: "300px"
-                                        }} disabled={true} id="outlined-basic" label="Emissions (kg CO2)" variant="standard" value={electricity * 0.92}
+
+                                            style={{
+                                                margin: "20px",
+                                                width: "300px"
+                                            }} disabled={true} id="outlined-basic" label="Emissions (kg CO2)" variant="standard" value={electricity * 0.92}
                                         />
                                     </Grid>
                                     <Button className="calculate-btn" style={{
@@ -198,12 +198,12 @@ const Lca2 = () => {
                             {activeGasTabId === 1 && (
                                 <React.Fragment><Grid item xs={6} lg={12}>
                                     <TextField
-                                            autoComplete='off'
-                                    
-                                    style={{
-                                        margin: "20px",
-                                        width: "300px"
-                                    }} required id="outlined-basic" label="Diesel used in generators (in litres)" variant="standard"
+                                        autoComplete='off'
+
+                                        style={{
+                                            margin: "20px",
+                                            width: "300px"
+                                        }} required id="outlined-basic" label="Diesel used in generators (in litres)" variant="standard"
                                         onChange={(e) => {
                                             setGeneratorDiesel(e.target.value)
                                         }} />
@@ -233,24 +233,24 @@ const Lca2 = () => {
 
                             {activeGasTabId === 2 && (
                                 <React.Fragment> <Grid item xs={6} lg={12}>
-                                    <TextField 
-                                            autoComplete='off'
-                                    
-                                    style={{
-                                        margin: "20px",
-                                        width: "300px"
-                                    }} required id="outlined-basic" label="Petrol used (in litres)" variant="standard"
+                                    <TextField
+                                        autoComplete='off'
+
+                                        style={{
+                                            margin: "20px",
+                                            width: "300px"
+                                        }} required id="outlined-basic" label="Petrol used (in litres)" variant="standard"
                                         onChange={(e) => {
                                             setPetrol(e.target.value)
                                         }} />
 
-                                    <TextField 
-                                            autoComplete='off'
-                                    
-                                    style={{
-                                        margin: "20px",
-                                        width: "300px"
-                                    }} disabled={true} id="outlined-basic" label="Emissions (kg CO2)" variant="standard" value={petrol * 2.3035}
+                                    <TextField
+                                        autoComplete='off'
+
+                                        style={{
+                                            margin: "20px",
+                                            width: "300px"
+                                        }} disabled={true} id="outlined-basic" label="Emissions (kg CO2)" variant="standard" value={petrol * 2.3035}
                                     />
                                 </Grid>
                                     <Button className="calculate-btn" style={{
@@ -275,13 +275,13 @@ const Lca2 = () => {
 
                             {activeGasTabId === -1 && (
                                 <React.Fragment>
-                                    <TextField 
-                                            autoComplete='off'
-                                    
-                                    style={{
-                                        margin: "20px",
-                                        width: "200px"
-                                    }} disabled={true} id="outlined-basic" label="Emissions (kg CO2)" variant="standard" value={gas}
+                                    <TextField
+                                        autoComplete='off'
+
+                                        style={{
+                                            margin: "20px",
+                                            width: "200px"
+                                        }} disabled={true} id="outlined-basic" label="Emissions (kg CO2)" variant="standard" value={gas}
                                     />
                                 </React.Fragment>
                             )}
@@ -434,14 +434,14 @@ const Lca2 = () => {
                             )}
                             {activeTabId === -1 && (
                                 <React.Fragment>
-                                    <TextField 
-                                            autoComplete='off'
-                                    
-                                    style={{
-                                        margin: "20px",
-                                        width: "300px",
+                                    <TextField
+                                        autoComplete='off'
 
-                                    }} disabled={true} id="outlined-basic" label="Emissions (kg CO2)" variant="standard" value={materialEmission}
+                                        style={{
+                                            margin: "20px",
+                                            width: "300px",
+
+                                        }} disabled={true} id="outlined-basic" label="Emissions (kg CO2)" variant="standard" value={materialEmission}
                                     />
                                 </React.Fragment>
                             )}
@@ -482,12 +482,12 @@ const Lca2 = () => {
                                     textAlign: "center"
                                 }}>
                                     <TextField
-                                            autoComplete='off'
-                                    
-                                    style={{
-                                        width: "100%",
+                                        autoComplete='off'
 
-                                    }} required id="outlined-basic" label="Biomass used as fuel wood" variant="standard" value={biomass}
+                                        style={{
+                                            width: "100%",
+
+                                        }} required id="outlined-basic" label="Biomass used as fuel wood" variant="standard" value={biomass}
                                         onChange={(e) => {
                                             setBiomass(e.target.value)
                                         }} />
@@ -514,13 +514,13 @@ const Lca2 = () => {
                                         height: "50px"
                                     }} variant="contained" onClick={() => setBiomassEmission(biomass * 1.8)}>Emissions</Button>
 
-                                    <TextField 
-                                            autoComplete='off'
-                                    
-                                    style={{
-                                        margin: "20px",
-                                        width: "300px"
-                                    }} disabled={false} id="outlined-basic" label="Emissions (kg CO2)" variant="standard" value={biomassEmission}
+                                    <TextField
+                                        autoComplete='off'
+
+                                        style={{
+                                            margin: "20px",
+                                            width: "300px"
+                                        }} disabled={false} id="outlined-basic" label="Emissions (kg CO2)" variant="standard" value={biomassEmission}
                                     />
                                 </Grid>
 
@@ -542,13 +542,13 @@ const Lca2 = () => {
                                         height: "55px"
                                     }} variant="contained" onClick={() => setTotalCPE(biomassEmission + materialEmission + gas)}>Total Emissions in Construction Phase</Button>
 
-                                    <TextField 
-                                            autoComplete='off'
-                                    
-                                    style={{
-                                        margin: "20px",
-                                        width: "300px"
-                                    }} id="outlined-basic" label="Emissions (kg CO2)" variant="standard" value={totalCPE}
+                                    <TextField
+                                        autoComplete='off'
+
+                                        style={{
+                                            margin: "20px",
+                                            width: "300px"
+                                        }} id="outlined-basic" label="Emissions (kg CO2)" variant="standard" value={totalCPE}
                                     />
                                 </Grid></div>
 
@@ -675,8 +675,8 @@ const Lca2 = () => {
                                     </Grid>
 
                                 </Grid>
-                            </div> 
-                </div>
+                            </div>
+                        </div>
                     </Paper>
                 </div>
 

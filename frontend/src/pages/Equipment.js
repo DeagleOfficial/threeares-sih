@@ -23,14 +23,14 @@ import { Box } from "@mui/system";
 import MUIDataTable from "mui-datatables";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import PieChart from "src/components/PieChart";
+import PieChart from "../components/PieChart";
 
 import React, { useEffect, useState } from "react";
 import "./equipment.css";
 // import "./Material.css";
 import axios from "axios";
-import ResponsiveAppBar from "src/components/ResponsiveAppBar";
-import SplitSection from "src/components/SplitSection";
+import ResponsiveAppBar from "../components/ResponsiveAppBar";
+import SplitSection from "../components/SplitSection";
 import equipmentDetails from "../data/equiment_estimator";
 
 // import materialDetails from "../data/material_estimator";

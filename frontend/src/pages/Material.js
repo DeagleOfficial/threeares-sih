@@ -22,15 +22,15 @@ import {
 import { Box } from "@mui/system";
 import MUIDataTable from "mui-datatables";
 
-import PieChart from "src/components/PieChart";
+import PieChart from "../components/PieChart";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useEffect, useState } from "react";
 import "./equipment.css";
 import "./Material.css";
 import axios from "axios";
-import ResponsiveAppBar from "src/components/ResponsiveAppBar";
-import SplitSection from "src/components/SplitSection";
+import ResponsiveAppBar from "../components/ResponsiveAppBar";
+import SplitSection from "../components/SplitSection";
 import materialsList from '../data/mat2';
 
 import materialDetails from "../data/material-updated";

@@ -1,10 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import SplitSection from "src/components/SplitSection";
+import SplitSection from "../components/SplitSection";
 import { Grid, styled, Paper, TextField, Select, MenuItem, FormControl, InputLabel, Button, ListItem, CssBaseline } from "@mui/material";
 import "./VehicleGHG.css";
 import axios from 'axios'
-import ResponsiveAppBar from "src/components/ResponsiveAppBar";
+import ResponsiveAppBar from "../components/ResponsiveAppBar";
 const VehicleGHG = () => {
 
     const [engineSize, setEngineSize] = useState("");

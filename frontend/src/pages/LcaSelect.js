@@ -2,7 +2,7 @@ import { FormControl, Button, Grid, InputLabel, MenuItem, Select, TextField, Typ
 // import { Button } from '@mui/material'
 
 import React, { useState } from 'react'
-import lcaData2 from 'src/data/lca2_data'
+import lcaData2 from '../data/lca2_data'
 import "./lca2.css";
 
 const LcaSelect = ({ label, emission, setEmission }) => {

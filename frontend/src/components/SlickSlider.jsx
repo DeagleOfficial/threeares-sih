@@ -1,7 +1,7 @@
 import React from "react";
 import Carousel from 'react-material-ui-carousel'
 import { Paper } from '@mui/material'
-import SplitSection from 'src/components/SplitSection';
+import SplitSection from '../components/SplitSection';
 
 
 function Item(props)
