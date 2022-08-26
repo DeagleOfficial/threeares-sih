@@ -1,4 +1,4 @@
-jimport React, { Component } from "react";
+import React, { Component } from "react";
 import Categories from "../components/Categories";
 import NewsLetter from "../components/NewsLetter";
 import PopularPorductsHeading from "../components/PopularPorductsHeading";
