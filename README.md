@@ -3,6 +3,8 @@
 Project Name: Threeares
 PSID: SH1019
 
+View Live: [Link](https://threeares-lanterns.netlify.app/)
+
 ## Folder Structure
 1. frontend (Contains the files for the UI of our website.)
 2. backend (Contains the Flask server with the API endpoints.)
